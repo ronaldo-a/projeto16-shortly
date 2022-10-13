@@ -5,6 +5,7 @@ import router from "./src/routes/routes.js";
 dotenv.config();
 const server = express();
 
+server.use(express.json());
 server.use(router);
 
 server.get("/", (req, res) => res.send("hellooooo"));
