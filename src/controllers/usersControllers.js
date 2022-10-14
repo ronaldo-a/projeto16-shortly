@@ -1,4 +1,5 @@
 import { v4 as uuid } from "uuid";
+import bcrypt from "bcrypt";
 import connection from "../db.js";
 
 async function signUp (req, res) {
@@ -24,7 +25,7 @@ async function signIn (req, res) {
         await connection.query(`INSERT INTO sessions ("userId", token) VALUES ($1, $2);`, [userId, token]);
         return res.status(200).send(token);
     } catch (error) {
-        res.send(500).send("Server error.");
+        res.status(500).send("Server error.");
     }
 }
 
