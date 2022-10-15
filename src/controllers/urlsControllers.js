@@ -77,4 +77,27 @@ async function getUrlsByUser (req, res) {
     
 }
 
-export { insertUrl, getUrlById, redirectToUrl, deleteUrl, getUrlsByUser };
+async function getRanking (req, res) {
+
+    try {
+        const ranking = (await connection.query(`SELECT 
+            users.id, 
+            users.name, 
+            COUNT ("shortenUrls".id) AS "linksCount", 
+            COALESCE (SUM ("shortenUrls"."visitCount"), 0) AS "visitCount"
+        FROM users
+        LEFT JOIN "shortenUrls"
+        ON users.id = "shortenUrls"."userId"
+        GROUP BY users.id
+        ORDER BY "visitCount" DESC
+        LIMIT 10;`)).rows;
+
+        return res.status(200).send(ranking);
+
+    } catch (error) {
+        return res.status(500).send("Erro de servidor.")
+    }
+    
+}
+
+export { insertUrl, getUrlById, redirectToUrl, deleteUrl, getUrlsByUser, getRanking };
