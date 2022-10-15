@@ -24,4 +24,24 @@ async function verifyNewUrl (req, res, next) {
     next();
 }
 
-export default verifyNewUrl;
+async function verifyDelete (req, res, next) {
+    const token = req.headers?.authorization?.replace("Bearer ", "");
+    const id = req.params.id;
+ 
+    const userId = (await connection.query(`SELECT "userId" FROM sessions WHERE token = $1`, [token])).rows[0];
+    if (!userId) {
+        return res.status(401).send("Usuário não está logado.");
+    }
+
+    const urlUserId = (await connection.query(`SELECT "userId", id FROM "shortenUrls" WHERE id = $1`, [id])).rows[0];
+    if (!urlUserId) {
+        return res.status(404).send("URL não encontrada.");
+    } else if (urlUserId.userId !== userId.userId) {
+        return res.status(401).send("Não permitido.");
+    }
+
+    res.locals.urlData = {urlId: urlUserId.id};
+    next();
+}
+
+export { verifyNewUrl, verifyDelete };

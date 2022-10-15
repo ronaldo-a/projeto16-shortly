@@ -43,4 +43,15 @@ async function redirectToUrl (req, res) {
     return res.redirect(url.url);
 }
 
-export { insertUrl, getUrlById, redirectToUrl };
+async function deleteUrl (req, res) {
+    const { urlId } = res.locals.urlData;
+
+    try {
+        await connection.query(`DELETE from "shortenUrls" WHERE id = $1`, [urlId]);
+        return res.status(204).send("Url excluída com sucesso.");
+    } catch (error) {
+        return res.status(500).send("Erro de servidor.");
+    }
+}
+
+export { insertUrl, getUrlById, redirectToUrl, deleteUrl };
