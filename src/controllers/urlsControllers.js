@@ -18,4 +18,15 @@ async function insertUrl (req, res) {
 
 }
 
-export default insertUrl;
+async function getUrlById (req, res) {
+    const id = req.params.id;
+
+    const url = (await connection.query(`SELECT id, "shortUrl", "url" FROM "shortenUrls" WHERE id = $1`, [id])).rows[0];
+    if (!url) {
+        return res.status(404).send("URL não encontrada.");
+    }
+
+    return res.status(200).send(url);
+}
+
+export { insertUrl, getUrlById };
