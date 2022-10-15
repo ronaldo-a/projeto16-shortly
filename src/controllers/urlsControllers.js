@@ -29,4 +29,18 @@ async function getUrlById (req, res) {
     return res.status(200).send(url);
 }
 
-export { insertUrl, getUrlById };
+async function redirectToUrl (req, res) {
+    const shortUrl = req.params.shortUrl;
+
+    const url = (await connection.query(`SELECT url, "visitCount" FROM "shortenUrls" WHERE "shortUrl" = $1;`, [shortUrl])).rows[0];
+    if (!url) {
+        res.status(404).send("URL não encontrada.");
+    }
+
+    const visitCount = url.visitCount + 1;
+    connection.query(`UPDATE "shortenUrls" SET "visitCount" = ${visitCount} WHERE "shortUrl" = $1;`, [shortUrl]);
+
+    return res.redirect(url.url);
+}
+
+export { insertUrl, getUrlById, redirectToUrl };
