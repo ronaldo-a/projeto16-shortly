@@ -54,4 +54,27 @@ async function deleteUrl (req, res) {
     }
 }
 
-export { insertUrl, getUrlById, redirectToUrl, deleteUrl };
+async function getUrlsByUser (req, res) {
+    const { userId } = res.locals.userId;
+
+    try {
+        const userData = (await connection.query(`SELECT users.id, users.name, COALESCE (SUM ("shortenUrls"."visitCount"), 0) AS "visitCount"
+            FROM users
+            LEFT JOIN "shortenUrls" ON users.id = "shortenUrls"."userId"
+            WHERE users.id = $1
+            GROUP BY users.id;`, [userId])).rows[0];
+
+        const shortenedUrls = (await connection.query(`SELECT id, "shortUrl", url, "visitCount"
+            FROM "shortenUrls"
+            WHERE "userId" = $1;`, [userId])).rows;
+    
+        const userDetails = {...userData, shortenedUrls};
+        
+        return res.status(200).send(userDetails);
+    } catch (error) {
+        return res.status(500).send("Erro de servidor.");
+    }
+    
+}
+
+export { insertUrl, getUrlById, redirectToUrl, deleteUrl, getUrlsByUser };

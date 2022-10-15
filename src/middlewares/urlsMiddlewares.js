@@ -44,4 +44,19 @@ async function verifyDelete (req, res, next) {
     next();
 }
 
-export { verifyNewUrl, verifyDelete };
+async function verifyUser (req, res, next) {
+    const token = req.headers?.authorization?.replace("Bearer ", "");
+    if (!token) {
+        return res.status(401).send("Não autorizado. Logar novamente.")
+    }
+ 
+    const userId = (await connection.query(`SELECT "userId" FROM sessions WHERE token = $1`, [token])).rows[0];
+    if (!userId) {
+        return res.status(404).send("Usuário não encontrado.");
+    }
+ 
+    res.locals.userId = userId;
+    next();
+}
+
+export { verifyNewUrl, verifyDelete, verifyUser };
