@@ -159,6 +159,11 @@ INSERT INTO public."shortenUrls" VALUES (4, 2, 'https://www.youtube.com/watch?v=
 INSERT INTO public."shortenUrls" VALUES (6, 5, 'https://github.com/ronaldo-a', 'fTUybZoB', 4, '2022-10-15 20:26:25.373608');
 INSERT INTO public."shortenUrls" VALUES (7, 5, 'https://www.youtube.com/watch?v=fQ3Z3FUcpdo', 'N62etem-', 3, '2022-10-15 20:28:31.696853');
 INSERT INTO public."shortenUrls" VALUES (3, 1, 'https://www.youtube.com/watch?v=LccxHuHq-RA', 'OyvoOhrL', 3, '2022-10-15 16:38:21.711775');
+INSERT INTO public."shortenUrls" VALUES (8, 12, 'htt://joi.dev/api/?v=17.6.1#objectpatternpattern-schema-options', 'rs1UIid2', 0, '2022-10-16 16:24:06.603864');
+INSERT INTO public."shortenUrls" VALUES (9, 12, 'https://uibakery.io/regex-library/url', 'gupaAo0j', 0, '2022-10-16 16:37:48.110946');
+INSERT INTO public."shortenUrls" VALUES (10, 12, 'http://www.youtube.com/', 'Hx808DaL', 0, '2022-10-16 16:38:40.003267');
+INSERT INTO public."shortenUrls" VALUES (11, 12, 'www.youtube.com', 'z3psB_Iu', 0, '2022-10-16 19:55:16.280618');
+INSERT INTO public."shortenUrls" VALUES (12, 12, 'http://www.youtube.com/watch?v=jfKfPfyJRdk', 'yYJS0aKQ', 0, '2022-10-16 19:58:04.070648');
 
 
 --
@@ -182,14 +187,14 @@ INSERT INTO public.users VALUES (12, 'Nicolas', 'nicolas@nicolas.com', '$2b$10$B
 -- Name: sessions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.sessions_id_seq', 6, true);
+SELECT pg_catalog.setval('public.sessions_id_seq', 7, true);
 
 
 --
 -- Name: shortenUrls_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."shortenUrls_id_seq"', 7, true);
+SELECT pg_catalog.setval('public."shortenUrls_id_seq"', 12, true);
 
 
 --
