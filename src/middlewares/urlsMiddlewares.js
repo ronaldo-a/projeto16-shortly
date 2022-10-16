@@ -1,8 +1,9 @@
 import Joi from "joi";
 import connection from "../db.js";
 
-const urlSchema = Joi.object({
-    url: Joi.string().uri().required()
+const urlSchema = Joi.object({ 
+    url: Joi.alternatives().try(Joi.string().regex(/^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/), 
+        Joi.string().regex(/^[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/)).required()
 });
 
 async function verifyNewUrl (req, res, next) {
