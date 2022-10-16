@@ -51,13 +51,13 @@ async function validateSignIn (req, res, next) {
 
     const userInfo = (await connection.query(`SELECT id as "userId", "encryptedPassword" FROM users WHERE email = $1`, [email])).rows[0];
     if (userInfo === undefined) {
-        return res.status(401).send("email or password incorrect.");
+        return res.status(401).send("email ou senha incorretos.");
     }
 
     const { userId, encryptedPassword } = userInfo;
     const checkPassword = bcrypt.compareSync(password, encryptedPassword);
     if (!checkPassword) {
-        return res.status(401).send("email or password incorrect.");
+        return res.status(401).send("email ou senha incorretos.");
     }
 
     res.locals.userId = userId;
